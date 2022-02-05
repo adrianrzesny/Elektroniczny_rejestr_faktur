@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EEF5128B-8FD0-475F-989C-30748CE234DF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Faktury</RootNamespace>
+    <AssemblyName>Faktury</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Aplikacja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Aplikacja.Designer.cs">
+      <DependentUpon>Aplikacja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\DataBase.cs" />
+    <Compile Include="Klasy\Faktura.cs" />
+    <Compile Include="Klasy\FakturaPozycja.cs" />
+    <Compile Include="Klasy\Ustawienia.cs" />
+    <Compile Include="Okna\FakturaModyfikacja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Okna\FakturaModyfikacja.Designer.cs">
+      <DependentUpon>FakturaModyfikacja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Okna\FakturaModyfikacjaPozycja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Okna\FakturaModyfikacjaPozycja.Designer.cs">
+      <DependentUpon>FakturaModyfikacjaPozycja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Widoki\Faktury.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Widoki\Faktury.Designer.cs">
+      <DependentUpon>Faktury.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Widoki\LoginMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Widoki\LoginMenu.Designer.cs">
+      <DependentUpon>LoginMenu.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Aplikacja.resx">
+      <DependentUpon>Aplikacja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Okna\FakturaModyfikacja.resx">
+      <DependentUpon>FakturaModyfikacja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Okna\FakturaModyfikacjaPozycja.resx">
+      <DependentUpon>FakturaModyfikacjaPozycja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Widoki\Faktury.resx">
+      <DependentUpon>Faktury.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Widoki\LoginMenu.resx">
+      <DependentUpon>LoginMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

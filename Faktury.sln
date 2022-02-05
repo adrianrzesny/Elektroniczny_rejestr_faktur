@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faktury", "Faktury\Faktury.csproj", "{EEF5128B-8FD0-475F-989C-30748CE234DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEF5128B-8FD0-475F-989C-30748CE234DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF5128B-8FD0-475F-989C-30748CE234DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF5128B-8FD0-475F-989C-30748CE234DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF5128B-8FD0-475F-989C-30748CE234DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {920B2400-B350-43FB-B0D8-38AE549A4F66}
+	EndGlobalSection
+EndGlobal
