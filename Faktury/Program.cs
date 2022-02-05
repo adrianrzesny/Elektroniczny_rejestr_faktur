@@ -9,7 +9,7 @@ namespace Faktury
     static class Program
     {
         /// <summary>
-        /// Aplikacja do prowadzenia elektronicznego rejestru faktur.
+        /// Aplikacja do prowadzenia elektronicznego rejestru faktur
         /// </summary>
         [STAThread]
         static void Main()
