@@ -52,6 +52,7 @@
     <Compile Include="Aplikacja.Designer.cs">
       <DependentUpon>Aplikacja.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfejsy\OperacjeBazodanowe.cs" />
     <Compile Include="Klasy\DataBase.cs" />
     <Compile Include="Klasy\Faktura.cs" />
     <Compile Include="Klasy\FakturaPozycja.cs" />

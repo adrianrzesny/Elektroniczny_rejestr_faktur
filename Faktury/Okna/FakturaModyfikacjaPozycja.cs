@@ -42,8 +42,6 @@ namespace Faktury.Okna
         #region Zdarzenia GUI
         private void btnZapisz_Click(object sender, EventArgs e)
         {
-            bool result = true;
-
             try
             {
                 fakturaPozycja.TowarUsluga = txtTowarUsluga.Text;
@@ -54,39 +52,18 @@ namespace Faktury.Okna
                 fakturaPozycja.Waluta = txtWaluta.Text;
                 fakturaPozycja.KursWaluty = double.Parse(txtKursWaluty.Text.Replace('.', ','));
 
-                if (fakturaPozycja.IDPozycjiFaktury != 0)
+                if (fakturaPozycja.Zapisz())
                 {
-
-                    if (DataBase.AktualizujPozycjeFaktury(fakturaPozycja))
-                    {
-                        MessageBox.Show("Zapisano dane pomyślnie", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ustawienia.faktura_modyfikacja.OdswiezListePozycjiFaktury();
-                        Close();
-                    }
-                    else
-                    {
-                        result = false;
-                    }
+                    MessageBox.Show("Zapisano dane pomyślnie", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ustawienia.faktura_modyfikacja.OdswiezListePozycjiFaktury();
+                    ustawienia.okno_faktur.OdswiezListeFaktur();
+                    Close();
                 }
                 else
                 {
-                    if (DataBase.DodajPozycjeFaktury(fakturaPozycja))
-                    {
-                        MessageBox.Show("Zapisano dane pomyślnie", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ustawienia.faktura_modyfikacja.OdswiezListePozycjiFaktury();
-                        ustawienia.okno_faktur.OdswiezListeFaktur();
-                        Close();
-                    }
-                    else
-                    {
-                        result = false;
-                    }
-                }
-
-                if (!result)
-                {
                     MessageBox.Show("Błąd zapisu danych", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
             }
             catch
             {

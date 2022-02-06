@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Faktury.Interfejsy;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Faktury.Klasy
 {
-    public class Faktura
+    public class Faktura : OperacjeBazodanowe
     {
         #region Pola
         private int id = 0;
@@ -33,17 +34,31 @@ namespace Faktury.Klasy
         public Faktura()
         { }
 
-        public Faktura(int _id, string _sprzedawca, string _sprzedawca_nip, string _nabywca
-            , string _nabywca_nip, DateTime _data_wplaty, DateTime _data_dostawy_wykonania)
+        public Faktura(int _id)
         {
-            ID = _id;
-            Sprzedawca = _sprzedawca;
-            SprzedawcaNIP = _sprzedawca_nip;
-            Nabywca = _nabywca;
-            NabywcaNIP = _nabywca_nip;
-            DataWplaty = _data_wplaty;
-            DataDostawyWykonania = _data_dostawy_wykonania;
+            Faktura faktura = (Faktura)DataBase.WczytajFaktury().Where(x => x.ID == this.ID);
+
+            if (faktura != null)
+            {
+                ID = _id;
+                Numer = faktura.Numer;
+                Brutto = faktura.Brutto;
+                Netto = faktura.Netto;
+                Sprzedawca = faktura.Sprzedawca;
+                SprzedawcaNIP = faktura.SprzedawcaNIP;
+                Nabywca = faktura.Nabywca;
+                NabywcaNIP = faktura.NabywcaNIP;
+                DataWystawienia = faktura.DataWystawienia;
+                DataWplaty = faktura.DataWplaty;
+                DataDostawyWykonania = faktura.DataDostawyWykonania;
+                Uwagi = faktura.Uwagi;
+                DodalDoSystemu = faktura.DodalDoSystemu;
+                OstatnioEdytowal = faktura.OstatnioEdytowal;
+
+                WczytajPozycjeFaktury();
+            }
         }
+
         #endregion
 
         #region Konwersja
@@ -96,16 +111,65 @@ namespace Faktury.Klasy
         {
             pozycje_faktury.Add(_fakturaPozycja);
         }
+
+        /// <summary>
+        /// Metoda wczytująca pozycje obecnej faktury
+        /// </summary>
+        public void WczytajPozycjeFaktury()
+        {
+            this.CzyscPozycjeFaktury();
+            this.PozycjeFaktury = DataBase.WczytajPozycjeFaktury(this.ID);
+        }
+
+        public bool Zapisz()
+        {
+            if (this.ID != 0)
+            {
+                if (!DataBase.AktualizujFakture(this))
+                { return false; }
+            }
+            else
+            {
+                if (!DataBase.DodajFakture(this))
+                { return false; }
+
+                this.ID = DataBase.SzukajIDOstatnioDodanejFaktury();
+            }
+
+            return true;
+        }
+
+        public bool Usun()
+        {
+            if (this.ID > 0)
+            {
+                if (!DataBase.UsunFakture(this))
+                { return false; }
+
+            }
+
+            return true;
+        }
+
+
         #endregion
 
         #region Wlasciwosci
         public List<FakturaPozycja> PozycjeFaktury
         {
-            get { return pozycje_faktury; }
-            set 
-            { 
+            get 
+            {
+                if (pozycje_faktury.Count == 0)
+                {
+                    WczytajPozycjeFaktury();
+                }
+
+                return pozycje_faktury; 
+            }
+            set
+            {
                 //Warunek sprawdzający czy pozycje przypisywane do faktury, rzeczywiście się w niej znajdują 
-                pozycje_faktury = (List<FakturaPozycja>)value.Where(x => x.IDFaktury == this.ID).ToList(); 
+                pozycje_faktury = (List<FakturaPozycja>)value.Where(x => x.IDFaktury == this.ID).ToList();
             }
         }
 
@@ -156,11 +220,11 @@ namespace Faktury.Klasy
             get { return data_wystawienia; }
             set
             {
-                if (value.Year >= DateTime.Now.Year - 10 && value.Year <= DateTime.Now.Year + 10)
+                if (value.Year >= DateTime.Now.Year - 100 && value.Year <= DateTime.Now.Year + 100)
                 { data_wystawienia = value; }
                 else
                 { throw new InvalidOperationException("Data jest poza obsługiwanym zakresem"); }
-            } 
+            }
         }
 
         public DateTime DataWplaty
@@ -168,10 +232,10 @@ namespace Faktury.Klasy
             get { return data_wplaty; }
             set
             {
-                if (value.Year >= DateTime.Now.Year - 10 && value.Year <= DateTime.Now.Year + 10)
+                if (value.Year >= DateTime.Now.Year - 100 && value.Year <= DateTime.Now.Year + 100)
                 { data_wplaty = value; }
                 else
-                { throw new InvalidOperationException("Data jest poza obsługiwanym zakresem"); }                
+                { throw new InvalidOperationException("Data jest poza obsługiwanym zakresem"); }
             }
         }
 
@@ -180,7 +244,7 @@ namespace Faktury.Klasy
             get { return data_dostawy_wykonania; }
             set
             {
-                if (value.Year >= DateTime.Now.Year - 10 && value.Year <= DateTime.Now.Year + 10)
+                if (value.Year >= DateTime.Now.Year - 100 && value.Year <= DateTime.Now.Year + 100)
                 { data_dostawy_wykonania = value; }
                 else
                 { throw new InvalidOperationException("Data jest poza obsługiwanym zakresem"); }

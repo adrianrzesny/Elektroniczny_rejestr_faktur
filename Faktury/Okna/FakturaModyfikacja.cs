@@ -131,8 +131,6 @@ namespace Faktury.Okna
 
         private void btnZapisz_Click(object sender, EventArgs e)
         {
-            bool result = true;
-
             try
             {
                 modyfikowana_faktura.Sprzedawca = txtSprzedawca.Text;
@@ -145,36 +143,22 @@ namespace Faktury.Okna
                 modyfikowana_faktura.DataWplaty = DateTime.Parse(txtDataWplaty.Text);
                 modyfikowana_faktura.Uwagi = txtUwagi.Text;
 
-                if (modyfikowana_faktura.ID != 0)
+                if (modyfikowana_faktura.Zapisz())
                 {
-                    if (DataBase.AktualizujFakture(modyfikowana_faktura))
+                    MessageBox.Show("Zapisano dane pomyślnie", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ustawienia.okno_faktur.OdswiezListeFaktur();
+
+                    if (modyfikowana_faktura.ID == 0)
                     {
-                        MessageBox.Show("Zapisano dane pomyślnie", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ustawienia.okno_faktur.OdswiezListeFaktur();
-                        Close();
-                    }
-                    else
-                    {
-                        result = false;
-                    }
-                }
-                else
-                {
-                    if (DataBase.DodajFakture(modyfikowana_faktura))
-                    {
-                        MessageBox.Show("Zapisano dane pomyślnie", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ustawienia.okno_faktur.OdswiezListeFaktur();
-                        modyfikowana_faktura.ID = DataBase.SzukajIDOstatnioDodanejFaktury();
                         WczytajPozycjeFaktur(modyfikowana_faktura.ID);
                         PokazPozycjeFaktury(true);
                     }
                     else
-                    {
-                        result = false;
+                    { 
+                        Close(); 
                     }
                 }
-
-                if (!result)
+                else
                 {
                     MessageBox.Show("Błąd zapisu danych", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -189,7 +173,7 @@ namespace Faktury.Okna
         {
             try
             {
-                if (int.Parse(gvFakturyPozycje[0, gvFakturyPozycje.CurrentRow.Index].Value.ToString()) != 0)
+                if (fakturaPozycja.IDPozycjiFaktury != 0)
                 {
                     ZamknijOknaDialogowe();
                     FakturaModyfikacjaPozycja fakturaModyfikacjaPozycja = new FakturaModyfikacjaPozycja(modyfikowana_faktura, fakturaPozycja);
@@ -208,7 +192,7 @@ namespace Faktury.Okna
                 if (odpowiedz == DialogResult.Yes)
                 {
                     ZamknijOknaDialogowe();
-                    if (DataBase.UsunPozycjeFaktury(fakturaPozycja))
+                    if (fakturaPozycja.Usun())
                     {
                         OdswiezListePozycjiFaktury();
                         MessageBox.Show("Pozycja faktury została usunięta", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Warning);

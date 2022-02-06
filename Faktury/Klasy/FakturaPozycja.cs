@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Faktury.Interfejsy;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Faktury.Klasy
 {
-    public class FakturaPozycja
+    public class FakturaPozycja : OperacjeBazodanowe
     {
         #region Pola
         private int id_faktura_pozycja = 0;
@@ -64,6 +65,37 @@ namespace Faktury.Klasy
             }
 
             return fp;
+        }
+        #endregion
+
+        #region Metody
+        public bool Zapisz()
+        {
+            if (this.IDPozycjiFaktury != 0)
+            {
+                if (!DataBase.AktualizujPozycjeFaktury(this))
+                { return false; }
+            }
+            else
+            {
+                if (!DataBase.DodajPozycjeFaktury(this))
+                { return false; }
+            }
+
+            return true;
+        }
+
+        public bool Usun()
+        {
+            if (this.IDPozycjiFaktury > 0)
+            {
+                if (!DataBase.UsunPozycjeFaktury(this))
+                { return false; }
+            }
+            else
+            { return false; }
+
+            return true;
         }
         #endregion
 
@@ -178,5 +210,6 @@ namespace Faktury.Klasy
             get { return Ilosc * CenaJednostkowa * KursWaluty; }
         }
         #endregion
+
     }
 }

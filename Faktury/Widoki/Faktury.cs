@@ -60,13 +60,13 @@ namespace Faktury.Widoki
         /// </summary>
         public void OdswiezListeFaktur()
         {
-            gvFaktury.DataSource = null;
-            gvFakturyPozycje.DataSource = null;
-
-            WczytajListeFaktur();
             try
             {
-                WczytajPozycjeFaktur(faktura.ID);
+                gvFaktury.DataSource = null;
+                gvFakturyPozycje.DataSource = null;
+
+                WczytajListeFaktur();
+                WczytajPozycjeFaktur();
             }
             catch
             { }
@@ -75,13 +75,11 @@ namespace Faktury.Widoki
         /// <summary>
         /// Metoda wczytujące pozycje faktury
         /// </summary>
-        /// <param name="_id_faktury">Identyfikator faktury</param>
-        private void WczytajPozycjeFaktur(int _id_faktury)
+        private void WczytajPozycjeFaktur()
         {
             try
             {
-                faktura.CzyscPozycjeFaktury();
-                faktura.PozycjeFaktury = DataBase.WczytajPozycjeFaktury(_id_faktury);
+                faktura.WczytajPozycjeFaktury();
                 gvFakturyPozycje.DataSource = null;
 
                 gvFakturyPozycje.DataSource = faktura.PozycjeFaktury;
@@ -129,7 +127,7 @@ namespace Faktury.Widoki
             gvFaktury.CurrentRow.Selected = true;
 
             faktura = (Faktura)gvFaktury.CurrentRow.DataBoundItem;
-            WczytajPozycjeFaktur(faktura.ID);
+            WczytajPozycjeFaktur();
         }
 
         private void btnWyloguj_Click(object sender, EventArgs e)
@@ -147,7 +145,7 @@ namespace Faktury.Widoki
 
         private void gvFaktury_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (ustawienia.UprawnienieModyfikacjaFaktur)
+            if (ustawienia.UprawnienieModyfikacjaFaktur && faktura.ID != 0)
             {
                 ZamknijOknaDialogowe();
                 FakturaModyfikacja oknoModyfikacjiFaktury = new FakturaModyfikacja(faktura);
@@ -168,7 +166,7 @@ namespace Faktury.Widoki
                 if (odpowiedz == DialogResult.Yes)
                 {
                     ZamknijOknaDialogowe();
-                    if (DataBase.UsunFakture(faktura))
+                    if (faktura.Usun())
                     {
                         OdswiezListeFaktur();
                         MessageBox.Show("Faktura została usunięta", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Warning);
