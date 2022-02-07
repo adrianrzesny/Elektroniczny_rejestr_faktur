@@ -118,7 +118,7 @@ namespace Faktury.Klasy
         public void WczytajPozycjeFaktury()
         {
             this.CzyscPozycjeFaktury();
-            this.PozycjeFaktury = DataBase.WczytajPozycjeFaktury(this.ID);
+            this.pozycje_faktury = DataBase.WczytajPozycjeFaktury(this.ID);
         }
 
         public bool Zapisz()
@@ -165,11 +165,6 @@ namespace Faktury.Klasy
                 }
 
                 return pozycje_faktury; 
-            }
-            set
-            {
-                //Warunek sprawdzający czy pozycje przypisywane do faktury, rzeczywiście się w niej znajdują 
-                pozycje_faktury = (List<FakturaPozycja>)value.Where(x => x.IDFaktury == this.ID).ToList();
             }
         }
 
