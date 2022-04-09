@@ -11,7 +11,7 @@ namespace Faktury.Klasy
     public class DataBase
     {
         #region Pola
-        private const string connetionString = "Data Source=LAPTOP-HUTU720A\\SQLEXPRESS;Initial Catalog=system_faktur;User ID=sa;Password=password1234";
+        private const string connetionString = "Data Source=LAPTOP\\SQLEXPRESS;Initial Catalog=system_faktur;User ID=sa;Password=password1234";
         private static Ustawienia ustawienia = Ustawienia.Instancja;
         #endregion
 
